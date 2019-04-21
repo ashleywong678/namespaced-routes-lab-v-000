@@ -1,4 +1,6 @@
 class SongsController < ApplicationController
+  before_action :set_preferences, only: [:index, :new]
+
   def index
     if params[:artist_id]
       @artist = Artist.find_by(id: params[:artist_id])
@@ -17,7 +19,7 @@ class SongsController < ApplicationController
       @artist = Artist.find_by(id: params[:artist_id])
       @song = @artist.songs.find_by(id: params[:id])
       if @song.nil?
-        redirect_to artist_songs_path(@artist), flash[:alert] = "Song not found"
+        redirect_to artist_songs_path(@artist), alert: "Song not found"
       end
     else
       @song = Song.find(params[:id])
@@ -25,7 +27,7 @@ class SongsController < ApplicationController
   end
 
   def new
-    if
+    if !@preferences.allow_create_songs
       redirect_to songs_path
     else
       @song = Song.new
@@ -69,6 +71,10 @@ class SongsController < ApplicationController
 
   def song_params
     params.require(:song).permit(:title, :artist_name)
+  end
+
+  def set_preferences
+    @preferences = Preference.first
   end
 end
 
