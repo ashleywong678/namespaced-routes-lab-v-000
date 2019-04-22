@@ -2,7 +2,6 @@ class ArtistsController < ApplicationController
   before_action :set_preferences, only: [:index, :new]
   
   def index
-    # binding.pry
     if @preferences && @preferences.artist_sort_order
       @artists = Artist.order(name: @preferences.artist_sort_order)
     else
@@ -51,7 +50,7 @@ class ArtistsController < ApplicationController
   def destroy
     @artist = Artist.find(params[:id])
     @artist.destroy
-    flash[:notice] = "Artist deleted."
+    flash[:alert] = "Artist deleted."
     redirect_to artists_path
   end
 

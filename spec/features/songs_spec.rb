@@ -1,4 +1,4 @@
-describe "songs", type:  :feature do
+describe "songs", type: :feature do
 
   before do
     Artist.destroy_all
@@ -42,7 +42,9 @@ describe "songs", type:  :feature do
     end
 
     it "links to edit when no artist" do
-      song = Song.create(title: "Policy of Truth")
+      song = Song.new(title: "Policy of Truth")
+      song.save
+      # binding.pry
       visit song_path(song)
       expect(page).to have_link("Add Artist", href: edit_song_path(song))
     end
