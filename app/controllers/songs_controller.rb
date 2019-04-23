@@ -40,6 +40,7 @@ class SongsController < ApplicationController
 
     if @song.save
       redirect_to @song
+      # redirect_to controller: 'users', action: 'show', id: @user.id
     else
       render :new
     end
